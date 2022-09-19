@@ -11,6 +11,7 @@ typedef struct {
 Stack *createStack(int capacity);
 void destroyStack(Stack *stack);
 
+bool isFull(Stack *stack);
 
 int main() {
 
@@ -37,4 +38,8 @@ Stack *createStack(int capacity) {
 void destroyStack(Stack *stack) {
   free(stack->collection);
   free(stack);
+}
+
+bool isFull(Stack *stack) {
+  return stack->capacity == stack->size;
 }
