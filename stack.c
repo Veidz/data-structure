@@ -9,6 +9,8 @@ typedef struct {
 } Stack;
 
 Stack *createStack(int capacity);
+void destroyStack(Stack *stack);
+
 
 int main() {
 
@@ -30,4 +32,9 @@ Stack *createStack(int capacity) {
   stack->size = 0;
 
   return stack;
+}
+
+void destroyStack(Stack *stack) {
+  free(stack->collection);
+  free(stack);
 }
