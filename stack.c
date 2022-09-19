@@ -12,6 +12,7 @@ Stack *createStack(int capacity);
 void destroyStack(Stack *stack);
 
 bool isFull(Stack *stack);
+bool isEmpty(Stack *stack);
 
 int main() {
 
@@ -42,4 +43,8 @@ void destroyStack(Stack *stack) {
 
 bool isFull(Stack *stack) {
   return stack->capacity == stack->size;
+}
+
+bool isEmpty(Stack *stack) {
+  return stack->size == 0;
 }
