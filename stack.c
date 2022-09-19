@@ -14,6 +14,8 @@ void destroyStack(Stack *stack);
 bool isFull(Stack *stack);
 bool isEmpty(Stack *stack);
 
+bool push(Stack *stack, int item);
+
 int main() {
   Stack *stack = createStack(5);
 
@@ -22,7 +24,21 @@ int main() {
     return 1;
   }
 
-  if (isEmpty(stack)) printf("Stack is empty");
+  if (isEmpty(stack)) printf("Stack is empty\n");
+
+  push(stack, 1);
+  printf("Stack size: %d\n", stack->size);
+
+  push(stack, 2);
+  push(stack, 3);
+  push(stack, 4);
+  push(stack, 5);
+
+  printf("Stack size: %d\n", stack->size);
+  if (isFull(stack)) {
+    printf("Stack is full\n");
+  }
+
   destroyStack(stack);
 
   return 0;
@@ -57,4 +73,13 @@ bool isFull(Stack *stack) {
 
 bool isEmpty(Stack *stack) {
   return stack->size == 0;
+}
+
+bool push(Stack *stack, int item) {
+  if (isFull(stack)) return false;
+
+  stack->collection[stack->size] = item;
+  stack->size++;
+
+  return true;
 }
