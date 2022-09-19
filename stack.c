@@ -15,7 +15,17 @@ bool isFull(Stack *stack);
 bool isEmpty(Stack *stack);
 
 int main() {
+  Stack *stack = createStack(5);
 
+  if (stack == NULL) {
+    printf("Error creating stack\n");
+    return 1;
+  }
+
+  if (isEmpty(stack)) printf("Stack is empty");
+  destroyStack(stack);
+
+  return 0;
 }
 
 Stack *createStack(int capacity) {
