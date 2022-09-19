@@ -15,6 +15,7 @@ bool isFull(Stack *stack);
 bool isEmpty(Stack *stack);
 
 bool push(Stack *stack, int item);
+bool pop(Stack *stack, int *item);
 
 int main() {
   Stack *stack = createStack(5);
@@ -34,9 +35,21 @@ int main() {
   push(stack, 4);
   push(stack, 5);
 
+  for (int i = 0; i < 5; i++) {
+    int pushValue = i + 1;
+    push(stack, pushValue);
+    printf("Pushed value: %d\n", pushValue);
+  }
+
   printf("Stack size: %d\n", stack->size);
-  if (isFull(stack)) {
-    printf("Stack is full\n");
+  if (isFull(stack)) printf("Stack is full\n");
+
+  printf("Capacity %d", stack->collection);
+
+  int popValue = 0;
+  for (int i = 0; i < 5; i++) {
+    pop(stack, &popValue);
+    printf("Popped value: %d\n", popValue);
   }
 
   destroyStack(stack);
@@ -80,6 +93,15 @@ bool push(Stack *stack, int item) {
 
   stack->collection[stack->size] = item;
   stack->size++;
+
+  return true;
+}
+
+bool pop(Stack *stack, int *item) {
+  if (isEmpty(stack)) return false;
+
+  stack->size--;
+  *item = stack->collection[stack->size];
 
   return true;
 }
