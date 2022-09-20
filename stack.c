@@ -31,7 +31,7 @@ void main() {
     printf("\n0 - Exit\n");
     printf("1 - Push\n");
     printf("2 - Pop\n");
-    printf("3 - Print\n");
+    printf("3 - Print\n\n");
     scanf("%d", &choice);
 
     switch(choice) {
