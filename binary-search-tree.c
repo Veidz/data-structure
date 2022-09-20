@@ -7,25 +7,37 @@ typedef struct node {
 } NodeTree;
 
 void insert(NodeTree **root, int value);
+NodeTree* searchNode(NodeTree *root, int value);
 void printTree(NodeTree *root);
 
 int main() {
-  NodeTree *root = NULL;
+  NodeTree *root = NULL, *search;
   int choice, value;
 
   do {
     printf("\n0 - Exit");
     printf("\n1 - Insert");
-    printf("\n2 - Print\n");
+    printf("\n2 - Search");
+    printf("\n3 - Print\n");
     scanf("%d", &choice);
 
     switch(choice) {
       case 1:
-        printf("\nEnter a value: ");
+        printf("\nEnter a value to insert: ");
         scanf("%d", &value);
         insert(&root, value);
         break;
       case 2:
+        printf("\nEnter a value to be searched: ");
+        scanf("%d", &value);
+        search = searchNode(root, value);
+        if (search != NULL) {
+          printf("\nValue found: %d", search->value);
+        } else {
+          printf("\nValue not found\n");
+        }
+        break;
+      case 3:
         printTree(root);
         break;
       default:
@@ -50,6 +62,19 @@ void insert(NodeTree **root, int value) {
       insert(&((*root)->right), value);
     }
   }
+}
+
+NodeTree* searchNode(NodeTree *root, int value) {
+  if (root != NULL) {
+    if (value == root->value) { // Valor é a raíz
+      return root;
+    } else if (value < root->value) { // Valor é menor que a raíz
+      return searchNode(root->left, value);
+    } else {
+      return searchNode(root->right, value); // Valor é maior que a raíz
+    }
+  }
+  return NULL;
 }
 
 void printTree(NodeTree *root) {
