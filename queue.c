@@ -18,7 +18,7 @@ void initializeQueue(Queue *queue);
 
 Element* createElement(char *data);
 
-void enqueue(Queue *queue, Element *current, char *data);
+void enqueue(Queue *queue, Element *last, char *data);
 void dequeue(Queue *queue);
 
 void printQueue(Queue *queue);
@@ -75,22 +75,21 @@ Element* createElement(char *data) {
   return newElement;
 }
 
-void enqueue(Queue *queue, Element *current, char *data) {
+void enqueue(Queue *queue, Element *last, char *data) {
   Element *newElement = createElement(data);
 
-  if(current == NULL) {
+  if(last == NULL) {
     if(queue->size == 0) {
       queue->last = newElement;
     }
     newElement->next = queue->first;
     queue->first = newElement;
-    
   } else {
-    if(current->next == NULL) {
+    if(last->next == NULL) {
       queue->last = newElement;
     }
-    newElement->next = current->next;
-    current->next = newElement;
+    newElement->next = last->next;
+    last->next = newElement;
   }
   queue->size++;
 }
