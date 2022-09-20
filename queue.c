@@ -11,19 +11,41 @@ typedef struct Queue {
   Node *end;
 } Queue;
 
+void initQueue(Queue *queue);
+
 void insert(Queue *queue, int value);
-void remove(Queue *queue);
+int dequeue(Queue *queue);
+
 void printQueue(Queue *queue);
 
 int main () {
+  Queue *queue = (Queue*)malloc(sizeof(Queue));
 
+  if (queue != NULL) {
+    initQueue(queue);
+
+    insert(queue, 10);
+    insert(queue, 20);
+    insert(queue, 30);
+
+    printQueue(queue);
+  } else {
+    printf("Error allocating memory");
+    return 1;
+  }
+
+  return 0;
+}
+
+void initQueue(Queue *queue) {
+  queue->start = NULL;
+  queue->end = NULL;
 }
 
 void insert(Queue *queue, int value) {
   Node *node = (Node*)malloc(sizeof(Node));
   if (node == NULL) {
     printf("Error allocating memory");
-    return;
   } else {
     node->value = value;
     node->next = NULL;
@@ -35,11 +57,10 @@ void insert(Queue *queue, int value) {
     }
 
     queue->end = node;
-    return;
   }
 }
 
-void remove(Queue *queue) {
+int dequeue(Queue *queue) {
   Node *node = queue->start;
   int value;
 
