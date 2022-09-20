@@ -5,7 +5,7 @@
 typedef struct {
   int *collection;
   int capacity;
-  int size;
+  int currentSize;
 } Stack;
 
 Stack *createStack(int capacity);
@@ -14,8 +14,10 @@ void destroyStack(Stack *stack);
 bool isFull(Stack *stack);
 bool isEmpty(Stack *stack);
 
-bool push(Stack *stack, int item);
-bool pop(Stack *stack, int *item);
+bool push(Stack *stack);
+bool pop(Stack *stack);
+
+void display();
 
 int main() {
   Stack *stack = createStack(5);
@@ -25,34 +27,26 @@ int main() {
     return 1;
   }
 
-  if (isEmpty(stack)) printf("Stack is empty\n");
+  int choice = 0;
 
-  push(stack, 1);
-  printf("Stack size: %d\n", stack->size);
+  while (true) {
+    printf("\n1 - Show stack\n");
+    printf("2 - Insert a value\n");
+    printf("3 - Remove a value\n\n");
+    scanf("%d", &choice);
 
-  push(stack, 2);
-  push(stack, 3);
-  push(stack, 4);
-  push(stack, 5);
-
-  for (int i = 0; i < 5; i++) {
-    int pushValue = i + 1;
-    push(stack, pushValue);
-    printf("Pushed value: %d\n", pushValue);
+    switch(choice) {
+      case 1:
+        display(stack);
+        break;
+      case 2:
+        if (!push(stack)) printf("\nStack is full\n");
+        break;
+      case 3:
+        if (!pop(stack)) printf("\nStack is empty\n");
+        break;
+    }
   }
-
-  printf("Stack size: %d\n", stack->size);
-  if (isFull(stack)) printf("Stack is full\n");
-
-  printf("Capacity %d", stack->collection);
-
-  int popValue = 0;
-  for (int i = 0; i < 5; i++) {
-    pop(stack, &popValue);
-    printf("Popped value: %d\n", popValue);
-  }
-
-  destroyStack(stack);
 
   return 0;
 }
@@ -70,7 +64,7 @@ Stack *createStack(int capacity) {
   }
 
   stack->capacity = capacity;
-  stack->size = 0;
+  stack->currentSize = 0;
 
   return stack;
 }
@@ -81,27 +75,42 @@ void destroyStack(Stack *stack) {
 }
 
 bool isFull(Stack *stack) {
-  return stack->capacity == stack->size;
+  return stack->capacity == stack->currentSize;
 }
 
 bool isEmpty(Stack *stack) {
-  return stack->size == 0;
+  return stack->currentSize == 0;
 }
 
-bool push(Stack *stack, int item) {
+bool push(Stack *stack) {
   if (isFull(stack)) return false;
 
-  stack->collection[stack->size] = item;
-  stack->size++;
+  int item;
+  printf("\nEnter the item to be pushed in stack: ");
+  scanf("%d", &item);
+
+  stack->collection[stack->currentSize] = item;
+  stack->currentSize++;
 
   return true;
 }
 
-bool pop(Stack *stack, int *item) {
+bool pop(Stack *stack) {
   if (isEmpty(stack)) return false;
 
-  stack->size--;
-  *item = stack->collection[stack->size];
+  stack->currentSize--;
+  stack->collection[stack->currentSize];
 
   return true;
+}
+
+void display(Stack *stack) {
+  if (isEmpty(stack)) {
+    printf("\nStack is empty\n");
+  } else {
+    printf("\nStack elements:\n");
+    for (int i = stack->currentSize - 1; i >= 0; i--) {
+      printf("%d\n", stack->collection[i]);
+    }
+  }
 }
