@@ -1,116 +1,98 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
+#include <string.h>
 
-typedef struct {
-  int *collection;
-  int capacity;
-  int currentSize;
+typedef struct stackElement {
+  char *data;
+  struct stackElement *next;
+} Element;
+
+typedef struct stackPointer {
+  Element *top;
+  int size;
 } Stack;
 
-Stack *createStack(int capacity);
-void destroyStack(Stack *stack);
+void initializeStack(Stack *stack) {
+  stack->top = NULL;
+  stack->size = 0;
+}
 
-bool isFull(Stack *stack);
-bool isEmpty(Stack *stack);
+Stack* createStack() {
+  Stack* stack = (Stack*)malloc(sizeof(Stack));
+  initializeStack(stack);
+  return stack;
+}
 
-bool push(Stack *stack);
-bool pop(Stack *stack);
+Element* initializeElement(char *data) {
+  Element *newElement = (Element*)malloc(sizeof(Element));
+  newElement->data = (char *)malloc(50 * sizeof(char));
+  strcpy(newElement->data, data);
+  return newElement;
+}
 
-void display();
+void push(Stack *stack, char* data);
+void pop(Stack *stack);
 
-int main() {
-  Stack *stack = createStack(5);
+void printStack(Stack *stack);
 
-  if (stack == NULL) {
-    printf("Error creating stack\n");
-    return 1;
-  }
+void main() {
+  Stack *stack = createStack();
+  int choice;
+  
+  char *data = (char*)malloc(50*sizeof(char));
 
-  int choice = 0;
-
-  while (true) {
-    printf("\n1 - Show stack\n");
-    printf("2 - Insert a value\n");
-    printf("3 - Remove a value\n\n");
+  do {
+    printf("\n0 - Exit\n");
+    printf("1 - Push\n");
+    printf("2 - Pop\n");
+    printf("3 - Print\n");
     scanf("%d", &choice);
 
     switch(choice) {
       case 1:
-        display(stack);
+        printf("Enter an element: ");
+        scanf("%s", data);
+        push(stack, data);
         break;
       case 2:
-        if (!push(stack)) printf("\nStack is full\n");
+        pop(stack);
         break;
       case 3:
-        if (!pop(stack)) printf("\nStack is empty\n");
+        printStack(stack);
         break;
+      default:
+        if (choice != 0) printf("Invalid choice\n");
     }
+  } while(choice != 0);
+}
+
+void printStack(Stack *stack) {
+  Element *aux;
+  int i;
+  aux = stack->top;
+
+  for(i = 0; i < stack->size; i++) {
+    printf("Value: %s\n", aux->data);
+    aux = aux->next;
   }
-
-  return 0;
 }
 
-Stack *createStack(int capacity) {
-  if (capacity <= 0) return NULL;
-
-  Stack *stack = malloc(sizeof(Stack));
-  if (stack == NULL) return NULL;
-
-  stack->collection = malloc(sizeof(int) * capacity);
-  if (stack->collection == NULL) {
-    free(stack);
-    return NULL;
-  }
-
-  stack->capacity = capacity;
-  stack->currentSize = 0;
-
-  return stack;
+void push(Stack *stack, char* data) {
+  Element *newElement = initializeElement(data);
+  newElement->next = stack->top;
+  stack->top = newElement;
+  stack->size++;
 }
 
-void destroyStack(Stack *stack) {
-  free(stack->collection);
-  free(stack);
-}
-
-bool isFull(Stack *stack) {
-  return stack->capacity == stack->currentSize;
-}
-
-bool isEmpty(Stack *stack) {
-  return stack->currentSize == 0;
-}
-
-bool push(Stack *stack) {
-  if (isFull(stack)) return false;
-
-  int item;
-  printf("\nEnter the item to be pushed in stack: ");
-  scanf("%d", &item);
-
-  stack->collection[stack->currentSize] = item;
-  stack->currentSize++;
-
-  return true;
-}
-
-bool pop(Stack *stack) {
-  if (isEmpty(stack)) return false;
-
-  stack->currentSize--;
-  stack->collection[stack->currentSize];
-
-  return true;
-}
-
-void display(Stack *stack) {
-  if (isEmpty(stack)) {
-    printf("\nStack is empty\n");
+void pop(Stack *stack) {
+  Element *remove_Element;
+  if(stack->size != 0) {
+    remove_Element = stack->top;
+    stack->top = stack->top->next;
+    free(remove_Element->data);
+    free(remove_Element);
+    stack->size--;
   } else {
-    printf("\nStack elements:\n");
-    for (int i = stack->currentSize - 1; i >= 0; i--) {
-      printf("%d\n", stack->collection[i]);
-    }
+    printf("Stack is empty\n");
   }
 }
