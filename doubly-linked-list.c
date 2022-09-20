@@ -86,7 +86,7 @@ void insertAfter(Node* node, int value) {
     newNode->prev = node;
     newNode->next = node->next;
     
-    if (node->next != NULL) { // Node is head
+    if (node->next != NULL) { // Node is head?
       node->next->prev = newNode;
     }
     node->next = newNode;

@@ -10,7 +10,13 @@ void insert(NodeTree **root, int value);
 NodeTree* searchNode(NodeTree *root, int value);
 NodeTree* removeNode(NodeTree *root, int value);
 
-void printTree(NodeTree *root);
+void printTreeOrder(NodeTree *root);
+void printTreePreOrder(NodeTree *root);
+void printTreePosOrder(NodeTree *root);
+
+// Struct da árvore
+// altura
+// pré ordem/ordem/pós ordem
 
 int main() {
   NodeTree *root = NULL, *search;
@@ -46,7 +52,12 @@ int main() {
         root = removeNode(root, value);
         break;
       case 4:
-        printTree(root);
+        printf("\nTree In Order\n");
+        printTreeOrder(root);
+        // printf("\nTree Pre Order\n");
+        // printTreePreOrder(root);
+        // printf("\nTree Pos Order\n");
+        // printTreePosOrder(root);
         break;
       default:
         if (choice != 0) printf("\nInvalid choice\n");
@@ -129,11 +140,30 @@ NodeTree* removeNode(NodeTree *root, int value) {
   }
 }
 
-void printTree(NodeTree *root) {
+void printTreeOrder(NodeTree *root) {
+  // Sub-árvore esquerda -> raíz -> sub-ávore direita
   if (root != NULL) {
-    printTree(root->left);
+    printTreeOrder(root->left);
     printf(" %d ", root->value);
-    printTree(root->right);
+    printTreeOrder(root->right);
+  }
+}
+
+void printTreePreOrder(NodeTree *root) {
+  // Raíz -> sub-árvore esquerda -> sub-ávore direita
+  if (root != NULL) {
+    printf(" %d ", root->value);
+    printTreePreOrder(root->left);
+    printTreePreOrder(root->right);
+  }
+}
+
+void printTreePosOrder(NodeTree *root) {
+  // Sub-árvore esquerda -> sub-ávore direita -> raíz
+  if (root != NULL) {
+    printTreePosOrder(root->left);
+    printTreePosOrder(root->right);
+    printf(" %d ", root->value);
   }
 }
 
