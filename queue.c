@@ -12,6 +12,7 @@ typedef struct Queue {
 } Queue;
 
 void insert(Queue *queue, int value);
+void remove(Queue *queue);
 
 int main () {
 
@@ -33,5 +34,25 @@ void insert(Queue *queue, int value) {
     }
 
     queue->end = node;
+  }
+}
+
+void remove(Queue *queue) {
+  Node *node = queue->start;
+  int value;
+
+  if (node != NULL) {
+    queue->start = node->next;
+    node->next = NULL;
+    value = node->value;
+
+    free(node);
+
+    if (queue->start == NULL) {
+      queue->end = NULL;
+    }
+    return value;
+  } else {
+    printf("Queue is empty");
   }
 }
