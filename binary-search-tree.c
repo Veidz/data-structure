@@ -97,7 +97,15 @@ NodeTree* removeNode(NodeTree *root, int value) {
         return NULL;
       } else {
         if (root->left != NULL && root->right != NULL) { // Nós que possuem 2 filhos
-          
+          NodeTree *aux = root->left;
+          while (aux->right != NULL) {
+            aux = aux->right;
+          }
+          root->value = aux->value;
+          aux->value = value;
+          printf("Element swapped: %d\n", value);
+          root->left = removeNode(root->left, value);
+          return root;
         } else { // Nós que possuem apenas 1 filho
           NodeTree *aux;
           if (root->left != NULL) {
