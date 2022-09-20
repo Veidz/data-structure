@@ -8,6 +8,8 @@ typedef struct node {
 
 void insert(NodeTree **root, int value);
 NodeTree* searchNode(NodeTree *root, int value);
+NodeTree* removeNode(NodeTree *root, int value);
+
 void printTree(NodeTree *root);
 
 int main() {
@@ -18,7 +20,8 @@ int main() {
     printf("\n0 - Exit");
     printf("\n1 - Insert");
     printf("\n2 - Search");
-    printf("\n3 - Print\n");
+    printf("\n3 - Remove");
+    printf("\n4 - Print\n");
     scanf("%d", &choice);
 
     switch(choice) {
@@ -38,6 +41,11 @@ int main() {
         }
         break;
       case 3:
+        printf("\nEnter a value to be removed: ");
+        scanf("%d", &value);
+        root = removeNode(root, value);
+        break;
+      case 4:
         printTree(root);
         break;
       default:
@@ -66,15 +74,51 @@ void insert(NodeTree **root, int value) {
 
 NodeTree* searchNode(NodeTree *root, int value) {
   if (root != NULL) {
-    if (value == root->value) { // Valor é a raíz
+    if (value == root->value) { // Valor é a raíz?
       return root;
-    } else if (value < root->value) { // Valor é menor que a raíz
+    } else if (value < root->value) { // Valor é menor que a raíz?
       return searchNode(root->left, value);
     } else {
       return searchNode(root->right, value); // Valor é maior que a raíz
     }
   }
   return NULL;
+}
+
+NodeTree* removeNode(NodeTree *root, int value) {
+  if (root == NULL) {
+    printf("Value not found\n");
+    return NULL;
+  } else {
+    if (root->value == value) { // Valor é a raiz?
+      if (root->left == NULL && root->right == NULL) { // Remove nós sem filhos
+        free(root);
+        printf("Element with no child removed: %d", value);
+        return NULL;
+      } else {
+        if (root->left != NULL && root->right != NULL) { // Nós que possuem 2 filhos
+          
+        } else { // Nós que possuem apenas 1 filho
+          NodeTree *aux;
+          if (root->left != NULL) {
+            aux = root->left;
+          } else {
+            aux = root->right;
+          }
+          free(root);
+          printf("Element with 1 child removed: %d", value);
+          return aux;
+        }
+      }
+    } else {
+      if (value < root->value) { // Valor é menor que a raíz?
+        root->left = removeNode(root->left, value);
+      } else { // Valor é maior que a raíz
+        root->right = removeNode(root->right, value);
+      }
+      return root;
+    }
+  }
 }
 
 void printTree(NodeTree *root) {
