@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_DATA_LENGTH 50
+
 typedef struct element {
   char *data;
   struct element *next;
@@ -25,7 +27,7 @@ void main() {
   Stack *stack = createStack();
   int choice;
   
-  char *data = (char*)malloc(50*sizeof(char));
+  char *data = (char*)malloc(MAX_DATA_LENGTH*sizeof(char));
 
   do {
     printf("\n0 - Exit\n");
@@ -65,7 +67,7 @@ void initializeStack(Stack *stack) {
 
 Element* initializeElement(char *data) {
   Element *newElement = (Element*)malloc(sizeof(Element));
-  newElement->data = (char*)malloc(50 * sizeof(char));
+  newElement->data = (char*)malloc(MAX_DATA_LENGTH* sizeof(char));
   strcpy(newElement->data, data);
   return newElement;
 }

@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_DATA_LENGTH 50
+
 typedef struct element {
   char *data;
   struct element *next;
@@ -25,7 +27,7 @@ void printQueue(Queue *queue);
 
 void main() {
   Queue *queue = createQueue();
-  char *data = (char*)malloc(50*sizeof(char));
+  char *data = (char*)malloc(MAX_DATA_LENGTH*sizeof(char));
 
   int choice;
 
@@ -69,7 +71,7 @@ void initializeQueue(Queue *queue) {
 
 Element* createElement(char *data) {
   Element *newElement = (Element*)malloc(sizeof(Element));
-  newElement->data = (char*)malloc(50 * sizeof(char));
+  newElement->data = (char*)malloc(MAX_DATA_LENGTH * sizeof(char));
   strcpy(newElement->data, data);
   newElement->next = NULL;
   return newElement;
