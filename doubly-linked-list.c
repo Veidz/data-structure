@@ -29,25 +29,7 @@ int main() {
     printf("%d\n", current->value);
   }
 
-  deallocate(&tail, &head);
-
   return 0;
-}
-
-void deallocate(Node** tail, Node** head) {
-  if (*tail == NULL) {
-    return;
-  }
-
-  Node* current = *tail;
-  while (current->next != NULL) {
-    current = current->next;
-    free(current->prev);
-  }
-  free(current);
-
-  *tail = NULL;
-  *head = NULL;
 }
 
 void initializeList(Node **tail, Node**head, int value) {
