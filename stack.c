@@ -2,33 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct stackElement {
+typedef struct element {
   char *data;
-  struct stackElement *next;
+  struct element *next;
 } Element;
 
-typedef struct stackPointer {
+typedef struct {
   Element *top;
   int size;
 } Stack;
 
-void initializeStack(Stack *stack) {
-  stack->top = NULL;
-  stack->size = 0;
-}
-
-Stack* createStack() {
-  Stack* stack = (Stack*)malloc(sizeof(Stack));
-  initializeStack(stack);
-  return stack;
-}
-
-Element* initializeElement(char *data) {
-  Element *newElement = (Element*)malloc(sizeof(Element));
-  newElement->data = (char *)malloc(50 * sizeof(char));
-  strcpy(newElement->data, data);
-  return newElement;
-}
+void initializeStack(Stack *stack);
+Stack* createStack();
+Element* initializeElement(char *data);
 
 void push(Stack *stack, char* data);
 void pop(Stack *stack);
@@ -66,15 +52,22 @@ void main() {
   } while(choice != 0);
 }
 
-void printStack(Stack *stack) {
-  Element *aux;
-  int i;
-  aux = stack->top;
+Stack* createStack() {
+  Stack* stack = (Stack*)malloc(sizeof(Stack));
+  initializeStack(stack);
+  return stack;
+}
 
-  for(i = 0; i < stack->size; i++) {
-    printf("Value: %s\n", aux->data);
-    aux = aux->next;
-  }
+void initializeStack(Stack *stack) {
+  stack->top = NULL;
+  stack->size = 0;
+}
+
+Element* initializeElement(char *data) {
+  Element *newElement = (Element*)malloc(sizeof(Element));
+  newElement->data = (char*)malloc(50 * sizeof(char));
+  strcpy(newElement->data, data);
+  return newElement;
 }
 
 void push(Stack *stack, char* data) {
@@ -85,14 +78,25 @@ void push(Stack *stack, char* data) {
 }
 
 void pop(Stack *stack) {
-  Element *remove_Element;
+  Element *removeElement;
   if(stack->size != 0) {
-    remove_Element = stack->top;
+    removeElement = stack->top;
     stack->top = stack->top->next;
-    free(remove_Element->data);
-    free(remove_Element);
+    free(removeElement->data);
+    free(removeElement);
     stack->size--;
   } else {
     printf("Stack is empty\n");
+  }
+}
+
+void printStack(Stack *stack) {
+  Element *aux;
+  int i;
+  aux = stack->top;
+
+  for(i = 0; i < stack->size; i++) {
+    printf("Value: %s\n", aux->data);
+    aux = aux->next;
   }
 }
