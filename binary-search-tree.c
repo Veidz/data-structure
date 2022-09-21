@@ -119,22 +119,30 @@ Node* removeNode(Node *root, int value) {
       } else {
         if (root->left != NULL && root->right != NULL) { // Nós que possuem 2 filhos
           Node *aux = root->left;
+
           while (aux->right != NULL) {
             aux = aux->right;
           }
+
           root->value = aux->value;
           aux->value = value;
+
           printf("Element swapped: %d\n", value);
+
           root->left = removeNode(root->left, value);
+
           return root;
         } else { // Nós que possuem apenas 1 filho
           Node *aux;
+
           if (root->left != NULL) {
             aux = root->left;
           } else {
             aux = root->right;
           }
+
           free(root);
+
           printf("Element with 1 child removed: %d", value);
           return aux;
         }
