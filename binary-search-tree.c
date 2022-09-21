@@ -1,36 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Node {
+typedef struct node {
   int value;
-  struct Node *left, *right;
+  struct node *left, *right;
 } Node;
 
 typedef struct Tree {
   Node *root;
 } Tree;
 
-Node* createNode(int value);
+void insert(Node **root, int value);
+Node* searchNode(Node *root, int value);
+Node* removeNode(Node *root, int value);
+int height(Node *root);
 
-void handleInsert(Tree* tree, int value);
-Node* insertNode(Node* root, int value);
+void printTreeOrder(Node *root);
+void printTreePreOrder(Node *root);
+void printTreePosOrder(Node *root);
 
-void handleRemove(Tree *tree, int value);
-Node* removeNode(Node* root, int value);
-
-void handleSearch(Tree* tree, int value);
-Node* searchNode(Node* node, int value);
-
-int height(Node *node);
-
-void inOrder(Node* node);
-void preOrder(Node* node);
-void postOrder(Node* node);
-void printTree(Tree* tree);
 
 int main() {
   Tree tree;
   tree.root = NULL;
+
+  Node *search;
 
   int choice, value;
 
@@ -47,23 +41,33 @@ int main() {
       case 1:
         printf("\nEnter a value to insert: ");
         scanf("%d", &value);
-        handleInsert(&tree, value);
+        insert(&tree.root, value);
         break;
       case 2:
         printf("\nEnter a value to be searched: ");
         scanf("%d", &value);
-        handleSearch(&tree, value);
+        search = searchNode(tree.root, value);
+        if (search != NULL) {
+          printf("\nValue found: %d", search->value);
+        } else {
+          printf("\nValue not found\n");
+        }
         break;
       case 3:
         printf("\nEnter a value to be removed: ");
         scanf("%d", &value);
-        handleRemove(&tree, value);
+        removeNode(tree.root, value);
         break;
       case 4:
         printf("\nTree height: %d", height(tree.root));
         break;
       case 5:
-        printTree(&tree);
+        printf("\nTree In Order\n");
+        printTreeOrder(tree.root);
+        printf("\nTree Pre Order\n");
+        printTreePreOrder(tree.root);
+        printf("\nTree Pos Order\n");
+        printTreePosOrder(tree.root);
         break;
       default:
         if (choice != 0) printf("\nInvalid choice\n");
@@ -74,117 +78,82 @@ int main() {
   return 0;
 }
 
-Node* createNode(int value) {
-  Node* node = (Node*)malloc(sizeof(Node));
-
-  node->value = value;
-  node->left = NULL;
-  node->right = NULL;
-
-  return node;
-}
-
-Node* insertNode(Node* root, int value) {
-  if (root == NULL) {
-    return createNode(value);
-  } else if (value < root->value) {
-    root->left = insertNode(root->left, value);
+void insert(Node **root, int value) {
+  if (*root == NULL) { // Nenhum elemento na árvore
+    *root = malloc(sizeof(Node));
+    (*root)->value = value;
+    (*root)->left = NULL;
+    (*root)->right = NULL;
   } else {
-    root->right = insertNode(root->right, value);
-  }
-
-  return root;
-}
-
-void handleInsert(Tree *tree, int value) {
-  if (tree->root == NULL) {
-    tree->root = createNode(value);
-  } else {
-    insertNode(tree->root, value);
+    if (value < (*root)->value) { // Valor da root é menor que o valor a ser inserido? (insere na esquerda)
+      insert(&((*root)->left), value);
+    } else { // Valor da root é maior que o valor a ser inserido? (insere na direita)
+      insert(&((*root)->right), value);
+    }
   }
 }
 
-void handleRemove(Tree *tree, int value) {  
-  tree->root = removeNode(tree->root, value);
+Node* searchNode(Node *root, int value) {
+  if (root != NULL) {
+    if (value == root->value) { // Valor é a raíz?
+      return root;
+    } else if (value < root->value) { // Valor é menor que a raíz?
+      return searchNode(root->left, value);
+    } else {
+      return searchNode(root->right, value); // Valor é maior que a raíz
+    }
+  }
+  return NULL;
 }
 
-Node* removeNode(Node* root, int value) {
+Node* removeNode(Node *root, int value) {
   if (root == NULL) {
     printf("Value not found\n");
     return NULL;
   } else {
-    if (root->value == value) {
-      if (root->left == NULL && root->right == NULL) {
+    if (root->value == value) { // Valor é a raiz?
+      if (root->left == NULL && root->right == NULL) { // Remove nós sem filhos
         free(root);
         printf("Element with no child removed: %d", value);
+        return NULL;
       } else {
-        if (root->left != NULL && root->right != NULL) {
-          Node* aux = root->left;
-
+        if (root->left != NULL && root->right != NULL) { // Nós que possuem 2 filhos
+          Node *aux = root->left;
           while (aux->right != NULL) {
             aux = aux->right;
           }
-
           root->value = aux->value;
           aux->value = value;
-
           printf("Element swapped: %d\n", value);
           root->left = removeNode(root->left, value);
           return root;
-        } else {
+        } else { // Nós que possuem apenas 1 filho
           Node *aux;
-
           if (root->left != NULL) {
             aux = root->left;
           } else {
             aux = root->right;
           }
-
           free(root);
           printf("Element with 1 child removed: %d", value);
           return aux;
         }
       }
     } else {
-      if (value < root->value) {
+      if (value < root->value) { // Valor é menor que a raíz?
         root->left = removeNode(root->left, value);
-      } else {
+      } else { // Valor é maior que a raíz
         root->right = removeNode(root->right, value);
       }
-
       return root;
     }
   }
 }
 
-void handleSearch(Tree* tree, int value) {
-  Node* node = searchNode(tree->root, value);
-
-  if (node != NULL) {
-    printf("\nValue found: %d", node->value);
-  } else {
-    printf("\nValue not found\n");
-  }
-}
-
-Node* searchNode(Node* node, int value) {
-  while (node) {
-    if (value < node->value) {
-      node = node->left;
-    } else if (value > node->value) {
-      node = node->right;
-    } else {
-      return node;
-    }
-  }
-  return NULL;
-}
-
-int height(Node* node) {
-  if (node != NULL) {
-    int left  = height(node->left);
-    int right = height(node->right);
-    
+int height(Node *root) {
+  if (root != NULL) {
+    int left = height(root->left);
+    int right = height(root->right);
     if (left > right) {
       return left + 1;
     } else {
@@ -195,42 +164,30 @@ int height(Node* node) {
   }
 }
 
-void printTree(Tree* tree) {
-  if (tree != NULL) {
-    printf("\nTree in Order\n");
-    inOrder(tree->root);
-
-    printf("\nTree Pre Order\n");
-    preOrder(tree->root);
-
-    printf("\nTree Pos Order\n");
-    postOrder(tree->root);
-  }
-}
-
-void inOrder(Node* root) {
+void printTreeOrder(Node *root) {
   // Sub-árvore esquerda -> raíz -> sub-ávore direita
   if (root != NULL) {
-    inOrder(root->left);
+    printTreeOrder(root->left);
     printf(" %d ", root->value);
-    inOrder(root->right);
+    printTreeOrder(root->right);
   }
 }
 
-void preOrder(Node* root) {
+void printTreePreOrder(Node *root) {
   // Raíz -> sub-árvore esquerda -> sub-ávore direita
   if (root != NULL) {
     printf(" %d ", root->value);
-    preOrder(root->left);
-    preOrder(root->right);
+    printTreePreOrder(root->left);
+    printTreePreOrder(root->right);
   }
 }
 
-void postOrder(Node* root) {
+void printTreePosOrder(Node *root) {
   // Sub-árvore esquerda -> sub-ávore direita -> raíz
   if (root != NULL) {
-    postOrder(root->left);
-    postOrder(root->right);
+    printTreePosOrder(root->left);
+    printTreePosOrder(root->right);
     printf(" %d ", root->value);
   }
 }
+
