@@ -130,7 +130,6 @@ Node* removeNode(Node *root, int value) {
           printf("Element swapped: %d\n", value);
 
           root->left = removeNode(root->left, value);
-
           return root;
         } else { // Nós que possuem apenas 1 filho
           Node *aux;
