@@ -9,6 +9,7 @@ typedef struct node {
 void insert(NodeTree **root, int value);
 NodeTree* searchNode(NodeTree *root, int value);
 NodeTree* removeNode(NodeTree *root, int value);
+int height(NodeTree *root);
 
 void printTreeOrder(NodeTree *root);
 void printTreePreOrder(NodeTree *root);
@@ -27,7 +28,8 @@ int main() {
     printf("\n1 - Insert");
     printf("\n2 - Search");
     printf("\n3 - Remove");
-    printf("\n4 - Print\n");
+    printf("\n4 - Height");
+    printf("\n5 - Print\n");
     scanf("%d", &choice);
 
     switch(choice) {
@@ -52,12 +54,15 @@ int main() {
         root = removeNode(root, value);
         break;
       case 4:
+        printf("\nTree height: %d", height(root));
+        break;
+      case 5:
         printf("\nTree In Order\n");
         printTreeOrder(root);
-        // printf("\nTree Pre Order\n");
-        // printTreePreOrder(root);
-        // printf("\nTree Pos Order\n");
-        // printTreePosOrder(root);
+        printf("\nTree Pre Order\n");
+        printTreePreOrder(root);
+        printf("\nTree Pos Order\n");
+        printTreePosOrder(root);
         break;
       default:
         if (choice != 0) printf("\nInvalid choice\n");
@@ -137,6 +142,20 @@ NodeTree* removeNode(NodeTree *root, int value) {
       }
       return root;
     }
+  }
+}
+
+int height(NodeTree *root) {
+  if (root != NULL) {
+    int left = height(root->left);
+    int right = height(root->right);
+    if (left > right) {
+      return left + 1;
+    } else {
+      return right + 1;
+    }
+  } else {
+    return 0;
   }
 }
 
