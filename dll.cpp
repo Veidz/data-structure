@@ -3,7 +3,7 @@ using namespace std;
 
 class Node {
   public:
-    int value = 0;
+    int value;
     Node* prev = nullptr;
     Node* next = nullptr;
 
@@ -189,7 +189,7 @@ int mainQueue() {
 
 
 int main() {
-  // mainDLL();
+  mainDLL();
   // mainStack();
-  mainQueue();
+  // mainQueue();
 }

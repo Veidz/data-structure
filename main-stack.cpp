@@ -20,7 +20,7 @@ int main() {
       case 1:
         cout << "Enter a value to push: ";
         cin >> value;
-        stack->insertEnd(value);
+        stack->insertBeginning(value);
         break;
       case 2:
         stack->removeNode();

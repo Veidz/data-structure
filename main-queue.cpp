@@ -20,7 +20,7 @@ int main() {
       case 1:
         cout << "Enter a value to enqueue: ";
         cin >> value;
-        queue->insertBeginning(value);
+        queue->insertEnd(value);
         break;
       case 2:
         queue->removeNode();

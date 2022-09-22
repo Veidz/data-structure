@@ -14,7 +14,7 @@ DLL::DLL(Node* node) {
   start = node;
 }
 
-void DLL::insertEnd(int value) {
+void DLL::insertBeginning(int value) {
   Node* node = new Node(value);
 
   if (start == nullptr) {
@@ -29,7 +29,7 @@ void DLL::insertEnd(int value) {
   }
 }
 
-void DLL::insertBeginning(int value) {
+void DLL::insertEnd(int value) {
   Node* node = new Node(value);
 
   if (start == nullptr) {
