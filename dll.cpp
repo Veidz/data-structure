@@ -43,11 +43,50 @@ class DLL {
         cout << node->value << " Inserted in the end" << endl;
       }
     }
+
+    void print() {
+      if (start == NULL) {
+        cout << "List is empty" << endl;
+      } else {
+        cout << "List values: " << endl;
+        Node* aux = start;
+
+        while (aux != NULL) {
+          cout << "Value: " << aux->value << endl;
+          aux = aux->next;
+        }
+      }
+    }
 };
 
 int main() {
   DLL* list = new DLL();
-  list->insertEnd(10);
-  list->insertEnd(5);
-  list->insertEnd(22);
+  int choice, value;
+
+  do {
+    cout << "\n0 - Exit" << endl;
+    cout << "1 - Insert Beggining" << endl;
+    cout << "2 - Insert End" << endl;
+    cout << "3 - Print List" << endl;
+    cin >> choice;
+
+    switch (choice) {
+      case 0:
+        exit(1);
+        break;
+      case 1:
+        break;
+      case 2:
+        cout << "Enter a value to insert at the end: ";
+        cin >> value;
+        list->insertEnd(value);
+        break;
+      case 3:
+        list->print();
+        break;
+    }
+
+  } while (choice != 0);
+
+  return 0;
 }
