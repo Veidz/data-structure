@@ -108,6 +108,9 @@ int main() {
         cin >> value;
         list->insertEnd(value);
         break;
+      case 3:
+        list->removeNode();
+        break;
       case 4:
         list->print();
         break;
