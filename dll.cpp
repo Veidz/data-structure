@@ -129,7 +129,7 @@ int mainStack() {
     cout << "\n0 - Exit" << endl;
     cout << "1 - Push" << endl;
     cout << "2 - Pop" << endl;
-    cout << "3 - Print List" << endl;
+    cout << "3 - Print Stack" << endl;
     cin >> choice;
 
     switch (choice) {
@@ -154,7 +154,42 @@ int mainStack() {
   return 0;
 }
 
+int mainQueue() {
+  DLL* queue = new DLL();
+  int choice, value;
+
+  do {
+    cout << "\n0 - Exit" << endl;
+    cout << "1 - Enqueue" << endl;
+    cout << "2 - Dequeue" << endl;
+    cout << "3 - Print Queue" << endl;
+    cin >> choice;
+
+    switch (choice) {
+      case 0:
+        exit(1);
+        break;
+      case 1:
+        cout << "Enter a value to enqueue: ";
+        cin >> value;
+        queue->insertEnd(value);
+        break;
+      case 2:
+        queue->removeNode();
+        break;
+      case 3:
+        queue->print();
+        break;
+    }
+
+  } while (choice != 0);
+
+  return 0;
+}
+
+
 int main() {
   // mainDLL();
-  mainStack();
+  // mainStack();
+  mainQueue();
 }
