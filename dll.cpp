@@ -29,7 +29,7 @@ class DLL {
 
       if (start == NULL) {
         start = node;
-        cout << start->value << " Inserted in the end" << endl;
+        cout << start->value << " Inserted at the end" << endl;
       } else {
         Node* ptr = start;
 
@@ -40,7 +40,7 @@ class DLL {
         ptr->next = node;
         node->prev = ptr;
 
-        cout << node->value << " Inserted in the end" << endl;
+        cout << node->value << " Inserted at the end" << endl;
       }
     }
 
