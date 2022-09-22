@@ -4,8 +4,8 @@ using namespace std;
 class Node {
   public:
     int value = 0;
-    Node* prev = NULL;
-    Node* next = NULL;
+    Node* prev = nullptr;
+    Node* next = nullptr;
 
     Node(int value) {
       this->value = value;
@@ -17,7 +17,7 @@ class DLL {
     Node* start;
 
     DLL() {
-      start = NULL;
+      start = nullptr;
     }
 
     DLL(Node* node) {
@@ -27,7 +27,7 @@ class DLL {
     void insertBeginning(int value) {
       Node* node = new Node(value);
 
-      if (start == NULL) {
+      if (start == nullptr) {
         start = node;
         cout << start->value << " Inserted at the beginning" << endl;
       } else {
@@ -42,7 +42,7 @@ class DLL {
     void insertEnd(int value) {
       Node* node = new Node(value);
 
-      if (start == NULL) {
+      if (start == nullptr) {
         start = node;
         cout << start->value << " Inserted at the end" << endl;
       } else {
@@ -56,6 +56,14 @@ class DLL {
         node->prev = ptr;
 
         cout << node->value << " Inserted at the end" << endl;
+      }
+    }
+
+    void removeBeginning() {
+      if (start == nullptr) {
+        cout << "List is empty" << endl;
+      } else {
+        start = start->next;
       }
     }
 
@@ -82,7 +90,8 @@ int main() {
     cout << "\n0 - Exit" << endl;
     cout << "1 - Insert Beginning" << endl;
     cout << "2 - Insert End" << endl;
-    cout << "3 - Print List" << endl;
+    cout << "3 - Remove Beginning" << endl;
+    cout << "4 - Print List" << endl;
     cin >> choice;
 
     switch (choice) {
@@ -100,6 +109,9 @@ int main() {
         list->insertEnd(value);
         break;
       case 3:
+        list->removeBeginning();
+        break;
+      case 4:
         list->print();
         break;
     }
