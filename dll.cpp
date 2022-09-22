@@ -24,6 +24,21 @@ class DLL {
       start = node;
     }
 
+    void insertBeginning(int value) {
+      Node* node = new Node(value);
+
+      if (start == NULL) {
+        start = node;
+        cout << start->value << " Inserted at the beginning" << endl;
+      } else {
+        start->prev = node;
+        node->next = start;
+        start = node;
+
+        cout << node->value << " Inserted at the beginning" << endl;
+      }
+    }
+
     void insertEnd(int value) {
       Node* node = new Node(value);
 
@@ -65,7 +80,7 @@ int main() {
 
   do {
     cout << "\n0 - Exit" << endl;
-    cout << "1 - Insert Beggining" << endl;
+    cout << "1 - Insert Beginning" << endl;
     cout << "2 - Insert End" << endl;
     cout << "3 - Print List" << endl;
     cin >> choice;
@@ -75,6 +90,9 @@ int main() {
         exit(1);
         break;
       case 1:
+        cout << "Enter a value to insert at the beginning: ";
+        cin >> value;
+        list->insertBeginning(value);
         break;
       case 2:
         cout << "Enter a value to insert at the end: ";
