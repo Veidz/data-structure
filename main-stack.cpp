@@ -3,14 +3,14 @@
 using namespace std;
 
 int main() {
-  DLL* list = new DLL();
+  DLL* stack = new DLL();
   int choice, value;
 
   do {
     cout << "\n0 - Exit" << endl;
     cout << "1 - Push" << endl;
     cout << "2 - Pop" << endl;
-    cout << "3 - Print List" << endl;
+    cout << "3 - Print stack" << endl;
     cin >> choice;
 
     switch (choice) {
@@ -20,13 +20,13 @@ int main() {
       case 1:
         cout << "Enter a value to push: ";
         cin >> value;
-        list->insertBeginning(value);
+        stack->insertEnd(value);
         break;
       case 2:
-        list->removeNode();
+        stack->removeNode();
         break;
       case 3:
-        list->print();
+        stack->print();
         break;
     }
 
