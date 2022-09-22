@@ -34,7 +34,7 @@ class DLL {
         start->prev = node;
         node->next = start;
         start = node;
-
+        
         cout << node->value << " Inserted at the beginning" << endl;
       }
     }
@@ -59,7 +59,7 @@ class DLL {
       }
     }
 
-    void removeBeginning() {
+    void removeNode() {
       if (start == nullptr) {
         cout << "List is empty" << endl;
       } else {
@@ -90,7 +90,7 @@ int main() {
     cout << "\n0 - Exit" << endl;
     cout << "1 - Insert Beginning" << endl;
     cout << "2 - Insert End" << endl;
-    cout << "3 - Remove Beginning" << endl;
+    cout << "3 - Remove" << endl;
     cout << "4 - Print List" << endl;
     cin >> choice;
 
@@ -107,9 +107,6 @@ int main() {
         cout << "Enter a value to insert at the end: ";
         cin >> value;
         list->insertEnd(value);
-        break;
-      case 3:
-        list->removeBeginning();
         break;
       case 4:
         list->print();
