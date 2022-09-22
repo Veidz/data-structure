@@ -29,13 +29,13 @@ class DLL {
 
       if (start == nullptr) {
         start = node;
-        cout << start->value << " Inserted at the beginning" << endl;
+        cout << start->value << " Inserted" << endl;
       } else {
         start->prev = node;
         node->next = start;
         start = node;
         
-        cout << node->value << " Inserted at the beginning" << endl;
+        cout << node->value << " Inserted" << endl;
       }
     }
 
@@ -44,7 +44,7 @@ class DLL {
 
       if (start == nullptr) {
         start = node;
-        cout << start->value << " Inserted at the end" << endl;
+        cout << start->value << " Inserted" << endl;
       } else {
         Node* ptr = start;
 
@@ -55,7 +55,7 @@ class DLL {
         ptr->next = node;
         node->prev = ptr;
 
-        cout << node->value << " Inserted at the end" << endl;
+        cout << node->value << " Inserted" << endl;
       }
     }
 
@@ -82,7 +82,7 @@ class DLL {
     }
 };
 
-int main() {
+int mainDLL() {
   DLL* list = new DLL();
   int choice, value;
 
@@ -119,4 +119,42 @@ int main() {
   } while (choice != 0);
 
   return 0;
+}
+
+int mainStack() {
+  DLL* stack = new DLL();
+  int choice, value;
+
+  do {
+    cout << "\n0 - Exit" << endl;
+    cout << "1 - Push" << endl;
+    cout << "2 - Pop" << endl;
+    cout << "3 - Print List" << endl;
+    cin >> choice;
+
+    switch (choice) {
+      case 0:
+        exit(1);
+        break;
+      case 1:
+        cout << "Enter a value to push: ";
+        cin >> value;
+        stack->insertBeginning(value);
+        break;
+      case 2:
+        stack->removeNode();
+        break;
+      case 3:
+        stack->print();
+        break;
+    }
+
+  } while (choice != 0);
+
+  return 0;
+}
+
+int main() {
+  // mainDLL();
+  mainStack();
 }
